@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/CSS/Nav_Bar.css">
+    <link rel="stylesheet" href="../assets/CSS/Learning_Styles.css">
+    <title>Basics</title>
+</head>
+
+<body>
+    <img src="../assets/images/bg1.jpg" alt="Cover_Image" class="Cover_Image">
+    <main>
+        <aside class="Sections_Tab" id="Sections_Tab"></aside>
+        <div class="Content_Area">
+            <h1 class="Chapter_Title">Basics of Python</h1>
+            <div class="Sections_Area">
+                <section id="Installation">
+                    <h2 class="Section_Title">Installation</h2>
+                    <div class="Definitions">
+                        In this course, we will set up Python using Anaconda, which is a popular distribution that
+                        includes Python and many useful libraries for data science and machine learning. <br>
+                        For the IDE, we will use PyCharm, which is a powerful and user-friendly environment for Python
+                        development. <br>
+                        Follow these steps to install Anaconda and PyCharm:
+                        <ol>
+                            <li>Download and install Anaconda from the official website: <a
+                                    href="https://www.anaconda.com/products/distribution">Anaconda
+                                    Distribution</a>. Choose the version that matches your operating system (Windows,
+                                macOS, or Linux) and follow the installation instructions.</li>
+                            <li>Download and install PyCharm from the official website: <a
+                                    href="https://www.jetbrains.com/pycharm/download/">PyCharm
+                                    Download</a>. You can choose the Community edition, which is free and sufficient for
+                                most Python development tasks.</li>
+                            <li>Once PyCharm is installed, open it and create a new project. Select "New Environment
+                                using
+                                Conda" to create a virtual environment for your project using Anaconda.</li>
+                            <li>After creating the project, you can start writing Python code in PyCharm. You can also
+                                install additional libraries using the Anaconda Navigator or by using pip in the
+                                terminal
+                                within PyCharm.</li>
+                        </ol>
+                    </div>
+                </section>
+                <section id="Comment">
+                    <h2 class="Section_Title">Comments</h2>
+                    <div class="Definitions">
+                        Comments in Python are used to explain code and make it more readable. They are ignored by the
+                        interpreter during execution. Single-line comments start with the hash symbol (#), while
+                        multi-line
+                        comments can be created using triple quotes (''' or """).
+                    </div>
+                    <pre class="prettyprint python Code">
+# This is a single-line comment
+'''
+This is a multi-line comment.
+It can span multiple lines.
+'''
+            </pre>
+                </section>
+                <section id="Variables">
+                    <h2 class="Section_Title">Variables</h2>
+                    <div class="Definitions">
+                        Python variables are used to store data values. <br>
+                        Variable names must start with a letter or an underscore (_) and can contain letters, numbers,
+                        and
+                        underscores. <br>
+                        They are case-sensitive (e.g., myVar and myvar are different variables). <br>
+                        A variable is created by assigning a value to it using
+                        the equals sign (=). <br>
+                        For example:
+                    </div>
+                    <pre class="prettyprint python Code">
+# Creating a variable
+x = 5
+y = "Hello, World!"
+print(x)
+print(y)
+    </pre>
+                    <div class="Definitions">
+                        Python is dynamically typed, so you don't need to declare the variable type explicitly. <br>
+                        It infers the type based on the assigned value.
+
+                    </div>
+                </section>
+                <section id="Data_Types">
+                    <h2 class="Section_Title">Data Types</h2>
+                    <div class="Definitions">
+                        Python has several built-in data types, including:
+                        <ul>
+                            <li>Integers (int): Whole numbers, e.g., 1, 2, 3</li>
+                            <li>Floating-point numbers (float): Decimal numbers, e.g., 1.5, 2.75</li>
+                            <li>Strings (str): Text enclosed in quotes, e.g., "Hello"</li>
+                            <li>Booleans (bool): True or False values</li>
+                            <li>Lists: Ordered collections of items, e.g., [1, 2, 3]</li>
+                            <li>Dictionaries: Key-value pairs, e.g., {"name": "Alice", "age": 25}</li>
+                        </ul>
+                    </div>
+                    <pre class="prettyprint python Code">
+# Examples of data types
+integer_var = 10
+float_var = 10.5
+string_var = "Hello"
+boolean_var = True
+list_var = [1, 2, 3, 4, 5]
+dict_var = {"name": "Alice", "age": 25}
+print(type(integer_var))
+print(type(float_var))
+print(type(string_var))
+print(type(boolean_var))
+print(type(list_var))
+print(type(dict_var))
+            </pre>
+                </section>
+                <section id="Operators">
+                    <h2 class="Section_Title">Operators</h2>
+                    <div class="Definitions">
+                        Operators in Python are special symbols that perform operations on variables and values. <br>
+                        They can be categorized into several types:
+                        <ul>
+                            <li>Arithmetic Operators: +, -, *, /, %, **, //</li>
+                            <li>Comparison Operators: ==, !=, >, &lt;,>=, &lt;= </li>
+                            <li>Logical Operators: and, or, not</li>
+                            <li>Assignment Operators: =, +=, -=, *=, /=</li>
+                            <li>Membership Operators: in, not in</li>
+                            <li>Identity Operators: is, is not</li>
+                        </ul>
+                    </div>
+                    <pre class="prettyprint python Code">
+# Examples of operators
+a = 10
+b = 5
+print(a + b)  # Addition
+print(a - b)  # Subtraction
+print(a * b)  # Multiplication
+print(a / b)  # Division
+print(a % b)  # Modulus (remainder)
+print(a ** b) # Exponentiation
+print(a // b) # Floor division
+print(a == b) # Equal to
+print(a != b) # Not equal to
+print(a > b)  # Greater than
+print(a < b)  # Less than
+print(a >= b) # Greater than or equal to
+print(a <= b) # Less than or equal to
+print(a > 5 and b < 10)  # Logical AND
+print(a > 5 or b > 10)   # Logical OR
+print(not(a > b))  # Logical NOT
+print(a in [5, 10, 15])  # Membership operator
+print(a is b)  # Identity operator
+
+            </pre>
+
+                </section>
+                <section id="Strings">
+                    <h2 class="Section_Title">Strings</h2>
+                    <div class="Definitions">
+                        Strings in Python are sequences of characters enclosed in single or double quotes. They can be
+                        manipulated using various methods and operations.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Creating and manipulating strings
+my_string = "Salem, ESST!"
+print(my_string)  # Print the string
+print(len(my_string))  # Get the length of the string
+print(my_string.upper())  # Convert to uppercase
+print(my_string.lower())  # Convert to lowercase
+print(my_string.replace("ESST", "Python"))  # Replace substring
+            </pre>
+                    To get all the string methods, you can use the following code:
+                    <pre class="prettyprint python Code">
+print(dir(my_string))
+            </pre>
+                </section>
+                <section id="String_Formatting">
+                    <h2 class="Section_Title">String Formatting</h2>
+                    <div class="Definitions">
+                        String formatting allows you to create strings with dynamic content. <br>
+                        Python provides several ways to format strings, including f-strings, the format() method, and
+                        the %
+                        operator.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Using f-strings for string formatting
+name = "Alice"
+age = 25
+formatted_string = f"My name is {name} and I am {age} years old."
+print(formatted_string)
+</pre>
+                    <pre class="prettyprint python Code">
+# Using the format() method for string formatting
+formatted_string2 = "My name is {} and I am {} years old.".format(name, age)
+print(formatted_string2)
+# You can also use positional or keyword arguments in the format() method
+formatted_string2_pos = "My name is {0} and I am {1} years old.".format(name, age)
+formatted_string2_kw = "My name is {name} and I am {age} years old.".format(name=name, age=age)
+print(formatted_string2_pos)
+print(formatted_string2_kw)
+</pre>
+                    <pre class="prettyprint python Code">
+# Using the % operator for string formatting
+formatted_string3 = "My name is %s and I am %d years old." % (name, age)
+print(formatted_string3)
+            </pre>
+                    <div class="Definitions">
+                        When using the % operator, %s is used for strings and %d is used for integers.
+                    </div>
+                </section>
+                <section id="Conditional_Statements">
+                    <h2 class="Section_Title">Conditional Statements</h2>
+                    <div class="Definitions">
+                        Conditional statements allow you to execute different blocks of code based on certain
+                        conditions.
+                        The primary conditional statements in Python are if, elif, and else.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Example of conditional statements
+x = 10
+if x > 0:
+    print("x is positive")
+elif x == 0:
+    print("x is zero")
+else:
+    print("x is negative")
+            </pre>
+                    <div class="Definitions">
+                        The pass statement is used as a placeholder when no action is required. <br>
+                        We can also use ... to indicate an incomplete block of code.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Using pass and ...
+if True:
+    pass  # Placeholder for future code
+else:
+    ...  # Placeholder for future code
+            </pre>
+                </section>
+                <section id="Input">
+                    <h2 class="Section_Title">Input</h2>
+                    <div class="Definitions">
+                        The input() function is used to take input from the user. It reads a line from input, converts
+                        it
+                        into a string, and returns it.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Taking input from the user
+name = input("Enter your name: ")
+age = input("Enter your age: ")
+print(f"Hello, {name}! You are {age} years old.")
+            </pre>
+                    <div class="Definitions">
+                        By default, the input() function returns the input as a string. If you need to convert it to
+                        another
+                        data type (e.g., int or float), you can use the appropriate type conversion functions.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Converting input to different data types
+age = int(input("Enter your age: "))  # Convert input to integer
+height = float(input("Enter your height in meters: "))  # Convert input to float
+print(f"You are {age} years old and {height} meters tall.")
+            </pre>
+
+                </section>
+                <section id="Lists">
+                    <h2 class="Section_Title">Lists</h2>
+                    <div class="Definitions">
+                        Lists in Python are ordered collections of items that can be of different data types. They are
+                        mutable, meaning you can change their content after creation.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Creating and manipulating lists
+my_list = [1, 2, 3, 4, 5]
+print(my_list)
+my_list.append(6)  # Add an item to the end of the list
+print(my_list)
+my_list.remove(3)  # Remove an item from the list
+print(my_list)
+            </pre>
+                    <div class="Definitions">
+                        The elements of a list can be of different data types, including other lists.
+                        There are various methods available for list manipulation, such as insert(), pop(), sort(), and
+                        reverse().
+                    </div>
+                    <pre class="prettyprint python Code">
+# Example of a list with different data types
+mixed_list = [1, "Hello", 3.14, [2, 4, 6]]
+print(mixed_list)
+# Accessing elements in a nested list
+print(mixed_list[3])      # Output: [2, 4, 6]
+print(mixed_list[3][1])   # Output: 4
+# Slicing a list
+sub_list = my_list[1:4]  # Get elements from index 1 to 3
+print(sub_list)
+# More list methods
+my_list.insert(2, 10)  # Insert 10 at index 2
+print(my_list)
+popped_item = my_list.pop()  # Remove and return the last item
+print(popped_item)
+print(my_list)
+my_list.sort()  # Sort the list
+print(my_list)
+my_list.reverse()  # Reverse the list
+print(my_list)
+            </pre>
+                </section>
+                <section id="Dictionaries">
+                    <h2 class="Section_Title">Dictionaries</h2>
+                    <div class="Definitions">
+                        Dictionaries in Python are collections of key-value pairs. They are mutable and allow you to
+                        access
+                        values by their keys. <br>
+                        Keys must be unique and immutable (e.g., strings, numbers, or tuples), while values can be of
+                        any
+                        data
+                        type. They must be hashable. Meaning, they must have a hash value that remains constant during
+                        their
+                        lifetime.
+                        Data types like lists and dictionaries are not hashable and cannot be used as keys.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Creating and manipulating dictionaries
+my_dict = {"name": "Alice", "age": 25}
+print(my_dict)
+my_dict["city"] = "New York"  # Add a new key-value pair
+print(my_dict)
+del my_dict["age"]  # Remove a key-value pair
+print(my_dict)
+# Accessing values by keys
+print(my_dict["name"])
+# Getting all keys and values
+print(my_dict.keys())
+print(my_dict.values())
+# Pop method to remove a key and return its value
+age = my_dict.pop("age", "Not Found")  # Returns "Not Found" if key doesn't exist
+print(age)
+print(my_dict)
+            </pre>
+                    <div class="Definitions">
+                        Iterating through a dictionary can be done using a for loop to access keys, values, or key-value
+                        pairs.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Iterating through a dictionary
+for key in my_dict:
+    print(f"Key: {key}, Value: {my_dict[key]}")
+# Or using items() to get key-value pairs
+for key, value in my_dict.items():
+    print(f"Key: {key}, Value: {value}")
+            </pre>
+                </section>
+                <section id="Sets">
+                    <h2 class="Section_Title">Sets</h2>
+                    <div class="Definitions">
+                        Sets in Python are unordered collections of unique items. They are mutable and support
+                        mathematical
+                        set operations like union, intersection, and difference.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Creating and manipulating sets
+my_set = {1, 2, 3, 4, 5}
+print(my_set)
+my_set.add(6)  # Add an item to the set
+print(my_set)
+my_set.remove(3)  # Remove an item from the set
+print(my_set)
+# using pop
+popped_item = my_set.pop()  # Remove and return an arbitrary item
+print(popped_item)
+print(my_set)
+# Set operations
+set_a = {1, 2, 3}
+set_b = {3, 4, 5}
+print(set_a.union(set_b))        # Union {1, 2, 3, 4, 5}
+print(set_a.intersection(set_b)) # Intersection {3}
+print(set_a.difference(set_b))   # Difference {1, 2}
+            </pre>
+                    <div class="Definitions">
+                        To access set elements, you can iterate through the set using a for loop since sets do not
+                        support
+                        indexing. <br>
+                    </div>
+                    <pre class="prettyprint python Code">
+# Iterating through a set
+for item in my_set:
+    print(item)
+            </pre>
+                    <div class="Definitions">
+                        We can convert a set to a list as follows:
+                    </div>
+                    <pre class="prettyprint python Code">
+# Converting a set to a list
+set_as_list = list(my_set)
+print(set_as_list)
+# Convert a list to a set
+list_as_set = set(set_as_list)
+print(list_as_set)
+            </pre>
+                    <div class="Definitions">
+                        Sets are mainly used for membership testing and eliminating duplicate entries from a collection.
+                    </div>
+                </section>
+                <section id="Tuples">
+                    <h2 class="Section_Title">Tuples</h2>
+                    <div class="Definitions">
+                        Tuples in Python are ordered collections of items that are immutable, meaning their content
+                        cannot
+                        be
+                        changed after creation. They are mainly used to group related data together. For example, you
+                        can
+                        use a
+                        tuple to represent a
+                        coordinate point (x, y).
+                    </div>
+                    <pre class="prettyprint python Code">
+# Creating and manipulating tuples
+my_tuple = (1, 2, 3, 4, 5)
+print(my_tuple)
+# Tuples are immutable, so you cannot add or remove items
+print(my_tuple[0])  # Accessing elements by index
+# Slicing a tuple
+sub_tuple = my_tuple[1:4]  # Get elements from index 1 to 3
+print(sub_tuple)
+# Tuples can contain different data types
+mixed_tuple = (1, "Hello", 3.14, (2, 4, 6))
+print(mixed_tuple)
+            </pre>
+                </section>
+                <section id="Loops">
+                    <h2 class="Section_Title">Loops</h2>
+                    <div class="Definitions">
+                        Loops in Python are used to execute a block of code multiple times. The two main types of loops
+                        are
+                        for loops and while loops. <br>
+                        A for loop iterates over a sequence (like a list, tuple, or string) or other iterable objects.
+                        <br>
+                        To break out of a loop, you can use the break statement. <br>
+                        To skip the current iteration and move to the next one, you can use the continue statement.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Example of a for loop
+for i in range(5):
+    print(i)
+# Example of a while loop
+count = 0
+while count &lt; 5:
+    print(count)
+    count += 1
+# Using break and continue
+for i in range(10):
+    if i == 5:
+        break  # Exit the loop when i is 5
+    if i % 2 == 0:
+        continue  # Skip even numbers
+            </pre>
+                    <div class="Definitions">
+                        The range() function generates a sequence of numbers, which is commonly used in for loops. <br>
+                        The syntaxe of range() can be:
+                        <ul>
+                            <li>range(stop): Generates numbers from 0 to stop-1</li>
+                            <li>range(start, stop): Generates numbers from start to stop-1</li>
+                            <li>range(start, stop, step): Generates numbers from start to stop-1 with a specified step
+                            </li>
+                        </ul>
+                    </div>
+                    <pre class="prettyprint python Code">
+# Examples of range() function
+print(list(range(5)))          # Output: [0, 1, 2, 3, 4]
+print(list(range(2, 6)))       # Output: [2, 3, 4, 5]
+print(list(range(1, 10, 2)))   # Output: [1, 3, 5, 7, 9]
+            </pre>
+                </section>
+                <section id="List_Comprehensions">
+                    <h2 class="Section_Title">List Comprehensions</h2>
+                    <div class="Definitions">
+                        List comprehensions provide a concise way to create lists in Python. They consist of brackets
+                        containing an expression followed by a for clause, and can include optional if clauses.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Example of a list comprehension
+squares = [x**2 for x in range(10) if x % 2 == 0]
+print(squares)
+            </pre>
+                    <div class="Definitions">
+                        We can use the same method with sets and dictionaries:
+                    </div>
+                    <pre class="prettyprint python Code">
+# Set comprehension
+even_squares_set = {x**2 for x in range(10) if x % 2 == 0}
+print(even_squares_set)
+# Dictionary comprehension
+squares_dict = {x: x**2 for x in range(10) if x % 2 == 0}
+print(squares_dict)
+            </pre>
+                </section>
+                <section id="Functions">
+                    <h2 class="Section_Title">Functions</h2>
+                    <div class="Definitions">
+                        Functions in Python are blocks of reusable code that perform a specific task. They are defined
+                        using
+                        the <strong>def</strong> keyword, followed by the function name and parentheses.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Defining and calling a function
+def greet(name):
+    return f"Hello, {name}!"
+print(greet("Alice"))
+            </pre>
+                </section>
+                <section id="Lambda">
+                    <h2 class="Section_Title">Lambda Functions</h2>
+                    <div class="Definitions">
+                        Lambda functions are small anonymous functions defined using the lambda keyword. They can take
+                        any number of arguments but can only have a single expression. <br>
+                        The syntax is: <br>
+                        <strong>Func_Name = lambda arguments: expression</strong>
+                    </div>
+                    <pre class="prettyprint python Code">
+# Example of a lambda function
+add = lambda x, y: x + y
+print(add(5, 3))
+# Using lambda with map() function
+numbers = [1, 2, 3, 4, 5]
+squared_numbers = list(map(lambda x: x**2, numbers))
+print(squared_numbers)
+# Using lambda with filter() function
+even_numbers = list(filter(lambda x: x % 2 == 0, numbers))
+print(even_numbers)
+            </pre>
+                </section>
+                <section id="Modules">
+                    <h2 class="Section_Title">Modules</h2>
+                    <div class="Definitions">
+                        Modules in Python are files containing Python code that can be imported and used in other Python
+                        programs. They help organize code and promote reusability. <br>
+                        You can create your own modules or use built-in and third-party modules.
+                        Let's see how to create and use a simple module.
+
+                    </div>
+                    <pre class="prettyprint python Code">
+# Creating a module named my_module.py
+def add(a, b):
+    return a + b
+def subtract(a, b):
+    return a - b
+            </pre>
+                    <pre class="prettyprint python Code">
+# Using the module in another Python file
+import my_module
+print(my_module.add(5, 3))
+print(my_module.subtract(5, 3))
+# Importing specific functions from the module
+from my_module import add, subtract # or from my_module import * to import all functions
+print(subtract(10, 4))
+print(add(10, 4))
+            </pre>
+                </section>
+                <section id="Classes">
+                    <h2 class="Section_Title">Classes and Objects</h2>
+                    <div class="Definitions">
+                        Classes in Python are blueprints for creating objects. They encapsulate data and behavior
+                        related to that data. An object is an instance of a class. <br>
+                        Classes are defined using the <strong>class</strong> keyword, followed by the class name and a
+                        colon. <br>
+                        The __init__() method is a special method used to initialize the attributes of the class. <br>
+                        Methods are functions defined within a class that operate on the object's data. <br>
+                        The self parameter refers to the instance of the class and is used to access its attributes and
+                        methods.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Defining a class and creating an object
+class Student:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    def introduce(self):
+        return f"My name is {self.name} and I am {self.age} years old."
+student1 = Student("Alice", 25)
+print(student1.introduce())
+            </pre>
+                    <div class="Definitions">
+                        There are other special methods in Python classes, such as __str__() for string representation
+                        and __repr__()
+                        for a detailed string representation. To see the list of all special methods, you can visit
+                        <a href="https://docs.python.org/3/reference/datamodel.html#special-method-names">Python's
+                            official documentation</a>.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Example of __str__ and __repr__ methods
+class Student:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    def __str__(self):
+        return f"Student(name={self.name}, age={self.age})"
+    def __repr__(self):
+        return f"Student('{self.name}', {self.age})"
+student1 = Student("Alice", 25)
+print(student1)
+print(repr(student1))
+            </pre>
+                    <div class="Definitions">
+                        Inheritance allows a class (child class) to inherit attributes and methods from another class
+                        (parent
+                        class). This promotes code reusability and establishes a hierarchical relationship between
+                        classes.
+                    </div>
+                    <pre class="prettyprint python Code">
+# Example of inheritance
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    def introduce(self):
+        return f"My name is {self.name} and I am {self.age} years old."
+class Student(Person):
+    def __init__(self, name, age, grade):
+        super().__init__(name, age)
+        self.grade = grade
+    def introduce(self):
+        return f"My name is {self.name}, I am {self.age} years old, and my grade is {self.grade}."
+student1 = Student("Alice", 25, "A")
+print(student1.introduce()) 
+            </pre>
+                    <div class="Definitions">
+                        In this example, the Student class inherits from the Person class, allowing it to use the
+                        introduce()
+                        method while adding its own attribute (grade) and overriding the introduce() method.
+                    </div>
+                </section>
+                <section id="Pythonic_Thinking">
+                    <h2 class="Section_Title">Pythonic Thinking</h2>
+                    <div class="Definitions">
+                        Pythonic thinking refers to writing code that follows the conventions and idioms of the Python
+                        programming language. It emphasizes readability, simplicity, and the use of Python's built-in
+                        features. Follow the PEP 8 Style Guide for Python Code to write Pythonic code.
+                    </div>
+                    <h2 class="Subsection_Title">Whitespace</h2>
+                    <div class="Definitions">
+                        <ul>
+                            <li>Use spaces instead of tabs for indentation.</li>
+                            <li>Use four spaces for each level of syntactically significant indenting.</li>
+                            <li>Lines should be 79 characters in length or less.</li>
+                            <li>Continuations of long expressions onto additional lines should
+                                be indented by four extra spaces from their normal indentation
+                                level.
+                                In a file, functions and classes should be separated by two blank
+                                lines.
+                            <li>In a class, methods should be separated by one blank line.</li>
+                            <li>In a dictionary, put no whitespace between each key and colon,
+                                and put a single space before the corresponding value if it fits on
+                                the same line.</li>
+                            <li>Put one—and only one—space before and after the = operator in a
+                                variable assignment.</li>
+                            <li>For type annotations, ensure that there is no separation between
+                                the variable name and the colon, and use a space before the type
+                                information.</li>
+                        </ul>
+                        For example:
+                    </div>
+                    <pre class="prettyprint python Code">
+# Correct indentation and spacing
+def my_function(param1: int, param2: str) -> None:
+    my_dict = {"key1": "value1", "key2": "value2"}
+    total = param1 + 10
+    print(total)
+            </pre>
+                    <h2 class="Subsection_Title">Naming</h2>
+                    <div class="Definitions">
+                        <ul>
+                            <li>
+                                Functions, variables, and attributes should be in lowercase_underscore format.</li>
+                            <li>Protected instance attributes should be in _leading_underscore format.</li>
+                            <li>Private instance attributes should be in __double_leading_ underscore format.</li>
+                            <li>Classes (including exceptions) should be in CapitalizedWord format.</li>
+                            <li>Module-level constants should be in ALL_CAPS format.</li>
+                            <li>Instance methods in classes should use self, which refers to the object, as the name of
+                                the first parameter.</li>
+                            <li>Class methods should use cls, which refers to the class, as the name of the first
+                                parameter.</li>
+                        </ul>
+                        For example:
+                    </div>
+                    <pre class="prettyprint python Code">
+# Correct naming conventions
+class MyClass:
+    def __init__(self):
+        self.public_attr = "public"
+        self._protected_attr = "protected"
+        self.__private_attr = "private"
+
+    def public_method(self):
+        pass
+
+    def _protected_method(self):
+        pass
+
+    @classmethod
+    def class_method(cls):
+        pass
+    @staticmethod
+    def static_method():
+        pass
+MY_CONSTANT = 42
+            </pre>
+                    <h2 class="Subsection_Title">Expressions and Statements</h2>
+                    <div class="Definitions">
+                        <ul>
+                            <li>
+                                Use inline negation (if a is not b) instead of negation of positive expressions (if not
+                                a is
+                                b).</li>
+                            <li>
+                                Don't check for empty containers or sequences (like [] or '') by comparing the length to
+                                zero (if len(somelist) == 0). Use if not somelist and assume that empty values will
+                                implicitly evaluate to False. </li>
+                            <li>The same thing goes for non-empty containers or sequences (like [1] or 'hi'). The
+                                statement
+                                if somelist is implicitly True for nonempty Use inline negation (if a is not b) instead
+                                of
+                                negation of positive
+                                expressions (if not a is b).</li>
+                            <li>Don't check for empty containers or sequences (like [] or '') by comparing the length to
+                                zero (if len(somelist) == 0). Use if not somelist and assume that empty values will
+                                implicitly evaluate to False.</li>
+                            <li>The same thing goes for non-empty containers or sequences (like [1] or 'hi'). The
+                                statement
+                                values.</li>
+                            <li>Avoid single-line if statements, for and while loops, and except
+                                compound statements. Spread these over multiple lines for
+                                clarity.</li>
+                            <li>
+                                If you can't fit an expression on one line, surround it with parentheses and add line
+                                breaks
+                                and indentation to make it easier to
+                                read.</li>
+                            <li>Prefer surrounding multiline expressions with parentheses over
+                                using the \ line continuation character.
+                                values.</li>
+                            <li>Avoid single-line if statements, for and while loops, and except
+                                compound statements. Spread these over multiple lines for
+                                clarity.</li>
+                            <li>If you can't fit an expression on one line, surround it with parentheses
+                                and add line breaks and indentation to make it easier to
+                                read.</li>
+                            <li>Prefer surrounding multiline expressions with parentheses over
+                                using the \ line continuation character.</li>
+                        </ul>
+                        For example:
+                    </div>
+                    <pre class="prettyprint python Code">
+# Correct expressions and statements
+a = 10
+b = 20
+somelist = [1, 2, 3]
+if a is not b:
+    pass
+if not somelist:
+    pass
+if somelist:
+    pass
+result = (a + b +
+          30 - 5)
+            </pre>
+                    <h2 class="Subsection_Title">Imports</h2>
+                    <div class="Definitions">
+                        <ul>
+                            <li>Always put import statements (including from x import y) at the
+                                top of a file.</li>
+                            <li>Always use absolute names for modules when importing them, not
+                                names relative to the current module's own path. For example, to
+                                import the foo module from within the bar package, you should
+                                use from bar import foo, not just import foo.</li>
+                            <li>If you must do relative imports, use the explicit syntax
+                                from . import foo.</li>
+                            <li>Imports should be in sections in the following order: standard
+                                library modules, third-party modules, your own modules. Each
+                                subsection should have imports in alphabetical order.</li>
+                        </ul>
+                        For example:
+                    </div>
+                    <pre class="prettyprint python Code">
+# Correct import statements
+from pandas import DataFrame
+# Relative import
+from . import my_module
+            </pre>
+                </section>
+            </div>
+        </div>
+    </main>
+</body>
+<script src="../assets/JS/Nav_Bar.js" type="module"></script>
+<script src="../assets/JS/Side_Bar.js" defer></script>
+<script
+    src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?lang=c&amp;skin=sunburst"></script>
+
+
+</html>
