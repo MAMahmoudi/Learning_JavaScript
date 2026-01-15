@@ -94,20 +94,14 @@ export const Menu_Items = [
     icon: "fa-solid fa-user-plus",
     subMenu: [
       {
-        title: "Getting Started with NodeJS",
-        url: "../NodeJS/Getting_Started_with_NodeJS.html",
+        title: "Getting Started with NodeJS and Express",
+        url: "../NodeJS/Starting_Express_Node.html",
         cName: "Sub_Menu_Item",
         icon: "fa-solid fa-user-plus",
       },
       {
-        title: "What is Express",
-        url: "../NodeJS/What_is_Express.html",
-        cName: "Sub_Menu_Item",
-        icon: "fa-solid fa-user-plus",
-      },
-      {
-        title: "Styling and Deploying an App",
-        url: "../NodeJS/Styling_and_Deploying_an_App.html",
+        title: "MongoDB",
+        url: "../NodeJS/MongoDB.html",
         cName: "Sub_Menu_Item",
         icon: "fa-solid fa-user-plus",
       },

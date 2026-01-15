@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/CSS/Nav_Bar.css">
+    <link rel="stylesheet" href="../assets/CSS/Learning_Styles.css">
+    <title>Getting started with NodeJS</title>
+</head>
+
+<body>
+    <img src="../assets/images/bg1.jpg" alt="Cover_Image" class="Cover_Image">
+    <main>
+        <aside class="Sections_Tab" id="Sections_Tab"></aside>
+        <div class="Content_Area">
+            <h1 class="Chapter_Title">Middlewares</h1>
+            <div class="Sections_Area">
+                <section id="Installation">
+                    <h2 class="Section_Title">Installation</h2>
+                    <div class="Definitions">
+                        Web servers listen for requests, parse those requests, and send
+                        responses. The Node runtime will get these requests first and turn them from raw
+                        bytes into two JavaScript objects that you can handle: one object for the request (req )
+                        and one object for the response (res). <br>
+                        These two objects will be sent to a JavaScript function that you'll write. You'll parse req
+                        to see what the user wants and manipulate res to prepare your response. <br>
+                        After a while, you'll have finished writing to the response. When that has happened,
+                        you'll call res.end. This signals to Node that the response is all done and
+                        ready to be sent over the wire. The Node runtime will see what you've done to the
+                        response object, turn it into another bundle of bytes, and send it over the internet to
+                        whoever requested it. <br>In Node, these two objects are passed through just one function. But
+                        in Express,
+                        these objects are passed through an array of functions, called the middleware stack.
+                        Express will start at the first function in the stack and continue in order down the
+                        stack. <br>
+                        Every function in this stack takes three arguments. The first two are req and res
+                        from before. They're given to you by Node. The third argument to each of these functions is
+                        itself a function, conventionally
+                        called next. When next is called, Express will go on to the next function in the stack.
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+function(request, response, next)
+                    </pre>
+                    <div class="Definitions">
+                        Eventually, one of these functions in the stack must call res.end, which will end the
+                        request. (In Express, you can also call some other methods like res.send or res.send-
+                        File, but these call res.end internally.) You can call res.end in any of the functions
+                        in the middleware stack, but you must only do it once or you'll get an error.
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+var express = require("express");
+var path = require("path");
+var fs = require("fs");
+var app = express();
+
+app.use(function(req, res, next) {
+console.log("Request IP: " + req.url);
+console.log("Request date: " + new Date());
+next();
+});
+
+app.use(function(req, res, next) {
+var filePath = path.join(__dirname, "static", req.url);
+fs.stat(filePath, function(err, fileInfo) { //Built-in fs.stat gets info about a file
+if (err) {
+next();
+return;
+}
+if (fileInfo.isFile()) {
+res.sendFile(filePath);
+} else {
+next();
+}
+});
+});
+
+app.listen(3000, function() {
+console.log("App started on port 3000");
+});
+                    </pre>
+                    <div class="Definitions">
+                        You call app.use to add a
+                        function to your application's middleware stack. When a request comes in to this
+                        application, that function will be called.
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</body>
+<script src="../assets/JS/Nav_Bar.js" type="module"></script>
+<script src="../assets/JS/Side_Bar.js" defer></script>
+<script
+    src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?lang=c&amp;skin=sunburst"></script>
+
+</html>
