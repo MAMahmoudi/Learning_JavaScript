@@ -16,11 +16,691 @@
         <div class="Content_Area">
             <h1 class="Chapter_Title">MongoDB</h1>
             <div class="Sections_Area">
-                <section id="Installation">
-                    <h2 class="Section_Title">Installation</h2>
+                <section id="MongoDB">
+                    <h2 class="Section_Title">What is MongoDB?</h2>
                     <div class="Definitions">
+                        MongoDB in its native shell uses JavaScript. <br>
+                        Every database will have one or more collections. <br>
+                        Every collection will have any number of documents. Documents are basically objects with various
+                        properties. Documents don't have to have the same properties, even if they're in the
+                        same collection<br>
+                        Documents look a lot like JSON, but they're technically Binary JSON, or BSON. You
+                        almost never deal with BSON directly; rather, you'll translate to and from JavaScript
+                        objects. <br>
+                        Mongo adds a unique _id property to every document.
                     </div>
-                    <pre class="prettyprint lang-js Code"></pre>
+                    <img src="../assets/images/MongoDB_Structure.png" class="Smaller_Image" alt="MongoDB_Structure">
+                    <div class="Definitions">
+                        Documents in Mongo correspond with rows or records in SQL. <br>
+                        In contrast to SQL, Mongo doesn't enforce any schema at the database layer. <br>
+                        Collections in Mongo correspond to SQL's tables. Once again, Mongo's collections
+                        don't enforce a schema, unlike SQL. <br>
+                        In addition, these documents can embed other documents, unlike in SQL.
+                    </div>
+                </section>
+                <section id="Installation">
+                    <h2 class="Section_Title">Setting up Mongo</h2>
+                    <div class="Definitions">
+                        To install Mongo locally, go to <a href="www.mogno.com">later</a>
+                    </div>
+                </section>
+                <section id="Mongoose">
+                    <h2 class="Section_Title">Talking to Mongo from Node with Mongoose</h2>
+                    <div class="Definitions">
+                        Mongoose provides a straight-forward, schema-based solution to modeling
+                        your application data and includes built-in type casting, validation, query
+                        building, business logic hooks and more, out of the box. <br>
+                        To install mongoose, you simply type the following command in you bash.
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+npm install mongoose
+                    </pre>
+                    <div class="Definitions">
+                        Now, let's create our first model. To specify this in Mongoose, you must define a schema, which
+                        contains information
+                        about properties, methods, and more. <br>
+                        Create a folder called models in the root of your project, and create a new file
+                        called user.js inside that folder. To start, put the contents from the following listing in
+                        that file.
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+
+const SALT_ROUNDS = 10;
+
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  displayName: String,
+  bio: String,
+});
+
+// Virtual name
+userSchema.methods.name = function () {
+  return this.displayName || this.username;
+};
+
+// Hash password before saving
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+
+  const salt = await bcrypt.genSalt(SALT_ROUNDS);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+// Compare password
+userSchema.methods.checkPassword = async function (guess) {
+  return bcrypt.compare(guess, this.password);
+};
+
+module.exports = mongoose.model("User", userSchema);
+                    </pre>
+                    <div class="Definitions">
+                        <b>bcryptjs</b>: a pure-JS implementation of bcrypt used for hashing passwords. <br>
+                        <b>SALT_ROUNDS</b>: the cost factor for hashing. Higher = more secure but slower.
+                        10 is a good balance for web apps.
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+
+const SALT_ROUNDS = 10;
+                    </pre>
+                    <div class="Definitions">
+                        <strong>Schema definition:</strong>
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  displayName: String,
+  bio: String,
+});
+                    </pre>
+                    <div class="Definitions">
+                        <strong>Virtual method: name()</strong> <br>
+                        This is a convenience method. If the user has a displayName, return it. Otherwise, fall back to
+                        the username.
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+userSchema.methods.name = function () {
+  return this.displayName || this.username;
+};
+                    </pre>
+                    <div class="Definitions">
+                        Useful in templates:
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+&lt;p>Hello, &lt;%= user.name() %>&lt;/p>
+                    </pre>
+                    <div class="Definitions">
+                        <strong>Pre-save hook: hashing the password</strong>
+                        This is the heart of secure authentication. <br>
+                        <b>What it does:</b>
+                        <ol>
+                            <li><b>Runs before saving a user:</b>
+                                <ol>
+                                    <li>Mongoose calls this automatically.</li>
+                                    <li>Checks if the password was modified</li>
+                                    <li>If the user updates their profile without changing the password, skip hashing.
+                                    </li>
+                                </ol>
+                            </li>
+                            <li><b>Generates a salt:</b> A salt prevents rainbow-table attacks.
+                            </li>
+                            <li><b>Hashes the password:</b> The plain password is replaced with a secure hash.</li>
+                            </li>
+                            <li><b>Why this is important:</b>
+                                <ul>
+                                    <li>You never store plain text passwords.</li>
+                                    <li>Even if your database leaks, attackers cannot recover the original password.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+
+  const salt = await bcrypt.genSalt(SALT_ROUNDS);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+</pre>
+                    <div class="Definitions">
+                        <strong>Password comparison method</strong>
+                        This method is used during login. <br>
+                        <b>What it does:</b>
+                        <ol>
+                            <li>Takes the password the user typed (guess)</li>
+                            <li>Compares it with the stored hashed password</li>
+                            <li>Returns true or false</li>
+                        </ol>
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+userSchema.methods.checkPassword = async function (guess) {
+  return bcrypt.compare(guess, this.password);
+};
+</pre>
+                    <div class="Definitions">Exporting the model:</div>
+                    <pre class="prettyprint lang-js Code">
+module.exports = mongoose.model("User", userSchema);
+</pre>
+                    <div class="Definitions">
+                        Create a simple app.js in the root of your project that
+                        will set up your app with the following code:
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+var express = require("express");
+var mongoose = require("mongoose");
+var path = require("path");
+var bodyParser = require("body-parser"); 
+var cookieParser = require("cookie-parser");
+var session = require("express-session");
+var flash = require("connect-flash");
+var routes = require("./routes");
+var app = express();
+
+mongoose.connect("mongodb://localhost:27017/test");
+app.set("port", process.env.PORT || 3000);
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(
+  session({
+    secret: "TKRv0IJs=HYqrvagQ#&!F!%V]Ww/4KiVs$s,&lt;&lt;MX",
+    resave: true,
+    saveUninitialized: true,
+  }),
+);
+app.use(flash());
+app.use(routes);
+app.listen(app.get("port"), function () {
+  console.log("Server started on port " + app.get("port"));
+});
+                    </pre>
+                    <div class="Definitions">
+                        <strong>Importing dependencies</strong>
+                        <ol>
+                            <li><b>express: </b>the web framework</li>
+                            <li><b>mongoose: </b>ODM for MongoDB</li>
+                            <li><b>path: </b>helps build file paths</li>
+                            <li><b>body-parser: </b>parses form data</li>
+                            <li><b>cookie-parser: </b>reads cookies</li>
+                            <li><b>express-session: </b>manages user sessions</li>
+                            <li><b>connect-flash: </b>stores temporary messages</li>
+                            <li><b>routes: </b>your application's route handlers</li>
+                        </ol>
+                        Then establishes a connection to a local MongoDB database named test.
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+mongoose.connect("mongodb://localhost:27017/test");
+</pre>
+                    <div class="Definitions">
+                        <strong>Setting the port</strong>
+                        Your app will run on: the port defined in the environment (Heroku, Docker, etc.) or fallback to
+                        3000 locally
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+app.set("port", process.env.PORT || 3000);
+</pre>
+                    <div class="Definitions">
+                        <strong>Middleware stack</strong>
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+// This allows Express to read form submissions (req.body).
+app.use(bodyParser.urlencoded({ extended: false }));
+// This reads cookies sent by the browser.
+app.use(cookieParser());
+/*
+This enables session support :  required for login systems.
+The secret signs the session ID cookie.
+*/
+app.use(
+  session({
+    secret: "TKRv0IJs=HYqrvagQ#&!F!%V]Ww/4KiVs$s,&lt;&lt;MX",
+    resave: true,
+    saveUninitialized: true,
+  }),
+);
+// Flash messages are stored in the session and cleared after being displayed.
+app.use(flash());
+// Registering your routes: This mounts all routes defined in routes.js.
+app.use(routes);
+// Then start the server.
+                    </pre>
+                    <div class="Definitions">
+                        There are three options we pass to express-session: <br>
+                        <ul>
+                            <li><b>secret</b> allows each session to be encrypted from the clients. This deters hackers
+                                from hacking into users' cookies. As noted, it needs to be a bunch of random
+                                characters.</li>
+                            <li><b>resave</b> is option required by the middleware. When it's set to true, the session
+                                will
+                                be updated even when it hasn't been modified.</li>
+                            <li><b>saveUninitialized</b> is another required option. This resets sessions that are
+                                uninitialized.</li>
+                        </ul>
+                        Create routes.js in the root of your project, as shown in the
+                        next listing.
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+var express = require("express");
+var User = require("./models/user");
+var router = express.Router();
+
+router.use(function (req, res, next) {
+  res.locals.currentUser = req.user;
+  res.locals.errors = req.flash("error");
+  res.locals.infos = req.flash("info");
+  next();
+});
+
+// Queries the users collection, returning the newest users first
+router.get("/", async function (req, res, next) {
+  try {
+    const users = await User.find().sort({ createdAt: "descending" });
+    res.render("index", { users });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/signup", (req, res) => {
+  res.render("signup");
+});
+
+router.post("/signup", async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+
+    // Check if user exists
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      req.flash("error", "User already exists");
+      return res.redirect("/signup");
+    }
+
+    // Create user
+    const newUser = new User({
+      username,
+      password,
+    });
+
+    await newUser.save();
+
+    // Go to home page WITHOUT logging in
+    return res.redirect("/");
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/users/:username", async (req, res, next) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+
+    if (!user) {
+      return next(404); // or res.status(404).send("User not found")
+    }
+
+    res.render("profile", { user });
+  } catch (err) {
+    next(err);
+  }
+});
+
+module.exports = router;
+                    </pre>
+                    <div class="Definitions">
+                        express.Router() creates a mini-application that handles routes. <br>
+                        User is your Mongoose model. <br>
+                        This middleware injects variables into every EJS template: <br>
+                        <b>currentUser →</b> the logged-in user (if any)
+                        <b>errors →</b> flash error messages
+                        <b>infos →</b> flash info messages
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+router.use(function (req, res, next) {
+  res.locals.currentUser = req.user;
+  res.locals.errors = req.flash("error");
+  res.locals.infos = req.flash("info");
+  next();
+});
+</pre>
+                    <div class="Definitions">
+                        <strong>Home page route</strong>
+                        <b>What it does:</b>
+                        <ul>
+                            <li>Fetches all users from MongoDB</li>
+                            <li>Sorts them newest → oldest</li>
+                            <li>Renders views/index.ejs</li>
+                            <li>Passes { users } to the template</li>
+                        </ul>
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+router.get("/", async function (req, res, next) {
+  try {
+    const users = await User.find().sort({ createdAt: "descending" });
+    res.render("index", { users });
+  } catch (err) {
+    next(err);
+  }
+});
+                    </pre>
+                    <div class="Definitions">
+                        <strong>Signup form page</strong>
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+router.get("/signup", (req, res) => {
+  res.render("signup");
+});
+                    </pre>
+                    <div class="Definitions">
+                        <ol>
+                            <li>Extracts username and password from the form</li>
+                            <li>Checks if the username already exists</li>
+                            <li>If yes → flash error → redirect back</li>
+                            <li>If no → creates a new user</li>
+                            <li>pre("save") in your model automatically hashes the password</li>
+                            <li>Saves the user</li>
+                            <li>Redirects to home page without logging in</li>
+                        </ol>
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+router.post("/signup", async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      req.flash("error", "User already exists");
+      return res.redirect("/signup");
+    }
+
+    const newUser = new User({
+      username,
+      password,
+    });
+
+    await newUser.save();
+
+    return res.redirect("/");
+  } catch (err) {
+    next(err);
+  }
+});
+                    </pre>
+                    <div class="Definitions">
+                        <strong>User profile route</strong>
+                        <b>What it does:</b>
+                        <ol>
+                            <li>Reads the :username from the URL</li>
+                            <li>Looks up that user in MongoDB</li>
+                            <li>If not found → triggers a 404</li>
+                            <li>If found → renders profile.ejs with that user</li>
+                        </ol>
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+router.get("/users/:username", async (req, res, next) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+
+    if (!user) {
+      return next(404);
+    }
+
+    res.render("profile", { user });
+  } catch (err) {
+    next(err);
+  }
+});
+</pre>
+                </section>
+                <section id="Passport">
+                    <h2 class="Section_Title">Authenticating users with Passport</h2>
+                    <div class="Definitions">
+                        Passport is an authentication
+                        middleware for Node. It is designed to serve a singular purpose: authenticate
+                        requests. <br>
+                        We'll look at how to use Passport to authenticate users stored in a Mongo database, but
+                        Passport also supports authentication with providers like Facebook, Google, Twitter,
+                        and over 100 more.
+                    </div>
+                    <h2 class="Subsection_Title">Setting up Passport</h2>
+                    <div class="Definitions">When setting up Passport, you'll need to do three things: <br>
+                        <strong>SETTING UP THE PASSPORT MIDDLEWARE</strong> <br>
+                        To initialize Passport, you'll need the following middlewares:
+                        <ul>
+                            <li>body-parser: parses HTML forms</li>
+                            <li>cookie-parser: handles the parsing of cookies from browsers and is required
+                                for user sessions</li>
+                            <li>express-session: Stores user sessions across different browsers</li>
+                            <li>connect-flash: Shows error messages</li>
+                            <li>passport.initialize: Initializes the Passport module</li>
+                            <li>passport.session: Handles Passport sessions</li>
+                        </ul>
+                        Add the following code to your app.js
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+var passport = require("passport");
+...............
+//app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+                    </pre>
+                    <div class="Definitions">
+                        <strong>SERIALIZING AND DESERIALIZING USERS</strong> <br>
+                        Passport needs to know how to serialize and deserialize users. In other words, you'll
+                        need to translate a user's session into an actual user object and vice-versa. <br>
+                        In a typical web application, the credentials used to authenticate a user
+                        will only be transmitted during the login request. If authentication
+                        succeeds, a session will be established and maintained via a cookie set in
+                        the user's browser. <br>
+                        Each subsequent request will not contain credentials, but rather the
+                        unique cookie that identifies the session. In order to support login
+                        sessions, Passport will serialize and deserialize user instances to and from
+                        the session. <br>
+                        To keep your code separated, you'll be defining a new file called setuppassport.js. This
+                        file will export a single function as follows:
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+                        const LocalStrategy = require("passport-local").Strategy;
+const User = require("./models/user");
+
+module.exports = function (passport) {
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
+
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await User.findById(id);
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
+  });
+
+  passport.use(
+    "login",
+    new LocalStrategy(async (username, password, done) => {
+      try {
+        const user = await User.findOne({ username });
+        if (!user) {
+          return done(null, false, { message: "No user has that username!" });
+        }
+
+        const isMatch = await user.checkPassword(password);
+        if (!isMatch) {
+          return done(null, false, { message: "Invalid password." });
+        }
+
+        return done(null, user);
+      } catch (err) {
+        return done(err);
+      }
+    }),
+  );
+};
+                    </pre>
+                    <div class="Definitions">
+                        <b>passport-local:</b> Passport's strategy for username/password login. <br>
+                        <b>User:</b> Your Mongoose model, which includes password hashing and the checkPassword method.
+                        <br>
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+const LocalStrategy = require("passport-local").Strategy;
+const User = require("./models/user");
+                    </pre>
+                    <div class="Definitions">
+                        Runs when a user logs in successfully. <br>
+                        Decides what gets stored in the session cookie. <br>
+                        Here, you store the user's MongoDB _id (aliased as id).
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+</pre>
+                    <div class="Definitions">
+                        Runs on every request after login. <br>
+                        Takes the stored _id from the session and looks up the full user in MongoDB. <br>
+                        Makes req.user available in your routes and templates.
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
+});
+                    </pre>
+                    <div class="Definitions">
+                        <b>LocalStrategy definition:</b> <br>
+                        <ol>
+                            <li><b>Find user by username: </b>Queries MongoDB for a user with the given username. If not
+                                found → fail with message.</li>
+                            <li><b>Check password: </b>Calls your model's checkPassword method (bcrypt compare). If
+                                mismatch → fail with message. If match → success, return the user object.</li>
+                            <li>Passport then calls serializeUser to store the user ID in the session. If error → pass
+                                error to Passport.</li>
+                        </ol>
+                    </div>
+                    <div class="Definitions">
+                        <strong>THE REAL AUTHENTICATION</strong><br>
+                        The final part of Passport is setting up a strategy. Some strategies include authentication
+                        with sites like Facebook or Google; the strategy you'll use is a local strategy. In
+                        short, that means the authentication is up to you, which means you'll have to write a
+                        little Mongoose code. <br>
+                        First, require the Passport local strategy into a variable called LocalStrategy, as in
+                        the following listing.
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+...........
+var LocalStrategy = require("passport-local").Strategy;
+...........
+                    </pre>
+                    <div class="Definitions">
+                        Next, tell Passport how to use that local strategy. Your authentication code will run
+                        through the following steps: <br>
+                        <ol>
+                            <li>Look for a user with the supplied username.</li>
+                            <li>If no user exists, then your user isn't authenticated; say that you've finished with
+                                the message “No user has that username!”</li>
+                            <li>If the user does exist, compare their real password with the password you supply.
+                                If the password matches, return the current user. If it doesn't, return
+                                “Invalid password.”</li>
+                        </ol>
+                        <strong>THE ROUTES AND THE VIEWS</strong><br>
+                        in routes.js add the following:
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+router.get("/login", function (req, res) {
+  res.render("login");
+});
+
+router.get("/logout", function (req, res) {
+  req.logout();
+  res.redirect("/");
+});
+
+router.post(
+  "/login",
+  passport.authenticate("login", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true,
+  }),
+);
+                    </pre>
+                    <div class="Definitions">
+                        And this is what the view, at login.ejs, will look like.
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+&lt;%- include("_header") %&gt;
+
+    &lt;h1&gt;Log in&lt;/h1&gt;
+    &lt;form action="/login" method="post"&gt;
+        &lt;input name="username" type="text" class="form-control" placeholder="Username" required autofocus&gt;
+        &lt;input name="password" type="password" class="form-control" placeholder="Password" required&gt;
+        &lt;input type="submit" value="Log in" class="btn btn-primary btn-block"&gt;
+    &lt;/form&gt;
+    &lt;%- include("_footer") %&gt;
+                    </pre>
+                    <div class="Definitions">
+                        To edit a profile add the following to route.js <br>
+                        Finally, create an edit page.
+                    </div>
+                    <pre class="prettyprint lang-js Code">
+router.get("/edit", ensureAuthenticated, function (req, res) {
+  res.render("edit");
+});
+
+router.post("/edit", ensureAuthenticated, async (req, res, next) => {
+  try {
+    // Update fields from form
+    req.user.displayName = req.body.displayName; // match schema field
+    req.user.bio = req.body.bio;
+
+    await req.user.save();
+
+    req.flash("info", "Profile updated!");
+    res.redirect("/edit"); // or res.redirect(`/users/${req.user.username}`);
+  } catch (err) {
+    next(err);
+  }
+});
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    req.flash("info", "You must be logged in to see this page.");
+    res.redirect("/login");
+  }
+}
+                    </pre>
+                    <pre class="prettyprint lang-js Code">
+&lt;%- include("_header") %&gt;
+    &lt;h1&gt;Edit your profile&lt;/h1&gt;
+    &lt;form action="/edit" method="post"&gt;
+        &lt;input name="displayname" type="text" class="form-control" placeholder="Display name"
+            value="&lt;%= currentUser.displayName || "" %&gt;"&gt;
+        &lt;textarea name="bio" class="form-control"
+            placeholder="Tell us about yourself!"&gt; &lt;%= currentUser.bio || "" %&gt;&lt;/textarea&gt;
+        &lt;input type="submit" value="Update" class="btn btn-primary btn-block"&gt;
+    &lt;/form&gt;
+
+
+    &lt;%- include("_footer") %&gt;
+                    </pre>
                 </section>
             </div>
         </div>
